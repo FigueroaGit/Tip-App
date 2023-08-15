@@ -1,6 +1,7 @@
 package com.figueroa.tipapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -80,6 +81,16 @@ fun TopHeader(totalPerPerson: Double = 134.0) {
 @Preview
 @Composable
 fun MainContent() {
+    BillForm() { billAmount ->
+        Log.d("Amount", "MainContent: $billAmount")
+    }
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun BillForm(modifier: Modifier = Modifier,
+             onValueChange: (String) -> Unit = {}
+) {
     val totalBillState = remember {
         mutableStateOf("")
     }
@@ -91,17 +102,17 @@ fun MainContent() {
     Surface(modifier = Modifier
         .padding(2.dp)
         .fillMaxWidth(),
-    shape = RoundedCornerShape(corner = CornerSize(8.dp)),
+        shape = RoundedCornerShape(corner = CornerSize(8.dp)),
         border = BorderStroke(width = 1.dp, color = Color.LightGray)
     ) {
         Column() {
             InputField(valueState = totalBillState, labelId = "Enter Bill", enabled = true, isSingleLine = true, onAction = KeyboardActions {
                 if(!validState) return@KeyboardActions
-                //Todo - onValueChanged
+                onValueChange(totalBillState.value.trim())
 
                 keyboardController?.hide()
             })
-            
+
         }
     }
 }
