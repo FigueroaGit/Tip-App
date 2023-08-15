@@ -140,6 +140,8 @@ fun BillForm(modifier: Modifier = Modifier,
                     ) {
                         RoundedIconButton(imageVector = Icons.Default.Remove, onClick = { })
 
+                        Text(text = "2", modifier = Modifier.align(Alignment.CenterVertically).padding(start = 9.dp, end = 9.dp))
+
                         RoundedIconButton(imageVector = Icons.Default.Add, onClick = { })
                     }
                 }
