@@ -6,14 +6,21 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -33,6 +40,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.figueroa.tipapp.components.InputField
 import com.figueroa.tipapp.ui.theme.TipAppTheme
+import com.figueroa.tipapp.widgets.RoundedIconButton
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,14 +113,39 @@ fun BillForm(modifier: Modifier = Modifier,
         shape = RoundedCornerShape(corner = CornerSize(8.dp)),
         border = BorderStroke(width = 1.dp, color = Color.LightGray)
     ) {
-        Column() {
-            InputField(valueState = totalBillState, labelId = "Enter Bill", enabled = true, isSingleLine = true, onAction = KeyboardActions {
+        Column(modifier = Modifier.padding(6.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start) {
+            InputField(
+                valueState = totalBillState,
+                labelId = "Enter Bill",
+                enabled = true,
+                isSingleLine = true,
+                onAction = KeyboardActions {
                 if(!validState) return@KeyboardActions
                 onValueChange(totalBillState.value.trim())
 
                 keyboardController?.hide()
             })
+            if (validState) {
+                Row(modifier= Modifier.padding(3.dp),
+                horizontalArrangement = Arrangement.Start) {
+                    Text(text = "Split",
+                    modifier = Modifier.align(alignment = Alignment.CenterVertically))
 
+                    Spacer(modifier = Modifier.width(120.dp))
+                    Row(
+                        modifier = Modifier.padding(horizontal = 3.dp),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        RoundedIconButton(imageVector = Icons.Default.Remove, onClick = { })
+
+                        RoundedIconButton(imageVector = Icons.Default.Add, onClick = { })
+                    }
+                }
+            } else {
+                Box(){}
+            }
         }
     }
 }
