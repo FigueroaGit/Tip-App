@@ -42,6 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.figueroa.tipapp.components.InputField
 import com.figueroa.tipapp.ui.theme.TipAppTheme
+import com.figueroa.tipapp.util.calculateTotalPerPerson
 import com.figueroa.tipapp.util.calculateTotalTip
 import com.figueroa.tipapp.widgets.RoundedIconButton
 
@@ -128,8 +129,12 @@ fun BillForm(modifier: Modifier = Modifier,
     val tipAmountState = remember {
         mutableStateOf(0.0)
     }
+
+    val totalPerPersonState = remember {
+        mutableStateOf(0.0)
+    }
     Column {
-        TopHeader()
+        TopHeader(totalPerPerson = totalPerPersonState.value)
 
         Surface(modifier = Modifier
             .padding(2.dp)
@@ -151,7 +156,7 @@ fun BillForm(modifier: Modifier = Modifier,
 
                         keyboardController?.hide()
                     })
-                //if (validState) {
+                if (validState) {
                 Row(modifier= Modifier.padding(3.dp),
                     horizontalArrangement = Arrangement.Start) {
                     Text(text = "Split",
@@ -162,13 +167,17 @@ fun BillForm(modifier: Modifier = Modifier,
                         modifier = Modifier.padding(horizontal = 3.dp),
                         horizontalArrangement = Arrangement.End
                     ) {
-                        RoundedIconButton(imageVector = Icons.Default.Remove, onClick = { splitByState.value = if(splitByState.value > 1) splitByState.value -1 else 1 })
+                        RoundedIconButton(imageVector = Icons.Default.Remove, onClick = { splitByState.value = if(splitByState.value > 1) splitByState.value -1 else 1
+                            totalPerPersonState.value = calculateTotalPerPerson(totalBill = totalBillState.value.toDouble(), splitBy = splitByState.value, tipPercentage = tipPercentage)
+                        })
 
                         Text(text = "${splitByState.value}", modifier = Modifier
                             .align(Alignment.CenterVertically)
                             .padding(start = 9.dp, end = 9.dp))
 
-                        RoundedIconButton(imageVector = Icons.Default.Add, onClick = { if(splitByState.value < range.last) { splitByState.value = splitByState.value + 1 }})
+                        RoundedIconButton(imageVector = Icons.Default.Add, onClick = { if(splitByState.value < range.last) { splitByState.value = splitByState.value + 1
+                            totalPerPersonState.value = calculateTotalPerPerson(totalBill = totalBillState.value.toDouble(), splitBy = splitByState.value, tipPercentage = tipPercentage)
+                        }})
                     }
                 }
 
@@ -189,13 +198,14 @@ fun BillForm(modifier: Modifier = Modifier,
                     Slider(value = sliderPositionState.value, onValueChange = { newValue ->
                         sliderPositionState.value = newValue
                         tipAmountState.value = calculateTotalTip(totalBill = totalBillState.value.toDouble(), tipPercentage = tipPercentage)
+                        totalPerPersonState.value = calculateTotalPerPerson(totalBill = totalBillState.value.toDouble(), splitBy = splitByState.value, tipPercentage = tipPercentage)
                     }, modifier = Modifier.padding(start = 16.dp, end = 16.dp), steps = 5, onValueChangeFinished = {
 
                     })
                 }
-                //} else {
-                //               Box(){}
-//            }
+                } else {
+                              Box(){}
+            }
             }
         }
     }
