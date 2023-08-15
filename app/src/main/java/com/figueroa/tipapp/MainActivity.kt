@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CornerSize
@@ -23,6 +24,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -107,6 +109,12 @@ fun BillForm(modifier: Modifier = Modifier,
 
     }
     val keyboardController = LocalSoftwareKeyboardController.current
+
+    val sliderPositionState = remember {
+        mutableStateOf(0f)
+
+    }
+
     Surface(modifier = Modifier
         .padding(2.dp)
         .fillMaxWidth(),
@@ -127,7 +135,7 @@ fun BillForm(modifier: Modifier = Modifier,
 
                 keyboardController?.hide()
             })
-            if (validState) {
+            //if (validState) {
                 Row(modifier= Modifier.padding(3.dp),
                 horizontalArrangement = Arrangement.Start) {
                     Text(text = "Split",
@@ -140,14 +148,35 @@ fun BillForm(modifier: Modifier = Modifier,
                     ) {
                         RoundedIconButton(imageVector = Icons.Default.Remove, onClick = { })
 
-                        Text(text = "2", modifier = Modifier.align(Alignment.CenterVertically).padding(start = 9.dp, end = 9.dp))
+                        Text(text = "2", modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .padding(start = 9.dp, end = 9.dp))
 
                         RoundedIconButton(imageVector = Icons.Default.Add, onClick = { })
                     }
                 }
-            } else {
-                Box(){}
+
+            //Tip Row
+            Row(modifier = Modifier.padding(horizontal = 3.dp, vertical = 12.dp)) {
+                Text(text = "Tip", modifier = Modifier.align(alignment = Alignment.CenterVertically))
+                Spacer(modifier = Modifier.width(200.dp))
+
+                Text(text = "$33.00", modifier = Modifier.align(alignment = Alignment.CenterVertically))
+
             }
+            Column(verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(text = "33%")
+                Spacer(modifier = Modifier.height(14.dp))
+
+                //Slider
+                Slider(value = sliderPositionState.value, onValueChange = { newValue ->
+                    sliderPositionState.value = newValue
+                })
+            }
+            //} else {
+ //               Box(){}
+//            }
         }
     }
 }
