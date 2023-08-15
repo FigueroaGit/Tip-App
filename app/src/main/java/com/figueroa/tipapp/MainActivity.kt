@@ -73,6 +73,7 @@ fun MyApp(content: @Composable () -> Unit) {
 fun TopHeader(totalPerPerson: Double = 134.0) {
     Surface(modifier = Modifier
         .fillMaxWidth()
+        .padding(15.dp)
         .height(150.dp)
         .clip(shape = RoundedCornerShape(corner = CornerSize(12.dp))),
         color = Color(0xFFE9D7F7)
@@ -114,32 +115,34 @@ fun BillForm(modifier: Modifier = Modifier,
         mutableStateOf(0f)
 
     }
+    Column {
+        TopHeader()
 
-    Surface(modifier = Modifier
-        .padding(2.dp)
-        .fillMaxWidth(),
-        shape = RoundedCornerShape(corner = CornerSize(8.dp)),
-        border = BorderStroke(width = 1.dp, color = Color.LightGray)
-    ) {
-        Column(modifier = Modifier.padding(6.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.Start) {
-            InputField(
-                valueState = totalBillState,
-                labelId = "Enter Bill",
-                enabled = true,
-                isSingleLine = true,
-                onAction = KeyboardActions {
-                if(!validState) return@KeyboardActions
-                onValueChange(totalBillState.value.trim())
+        Surface(modifier = Modifier
+            .padding(2.dp)
+            .fillMaxWidth(),
+            shape = RoundedCornerShape(corner = CornerSize(8.dp)),
+            border = BorderStroke(width = 1.dp, color = Color.LightGray)
+        ) {
+            Column(modifier = Modifier.padding(6.dp),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.Start) {
+                InputField(
+                    valueState = totalBillState,
+                    labelId = "Enter Bill",
+                    enabled = true,
+                    isSingleLine = true,
+                    onAction = KeyboardActions {
+                        if(!validState) return@KeyboardActions
+                        onValueChange(totalBillState.value.trim())
 
-                keyboardController?.hide()
-            })
-            //if (validState) {
+                        keyboardController?.hide()
+                    })
+                //if (validState) {
                 Row(modifier= Modifier.padding(3.dp),
-                horizontalArrangement = Arrangement.Start) {
+                    horizontalArrangement = Arrangement.Start) {
                     Text(text = "Split",
-                    modifier = Modifier.align(alignment = Alignment.CenterVertically))
+                        modifier = Modifier.align(alignment = Alignment.CenterVertically))
 
                     Spacer(modifier = Modifier.width(120.dp))
                     Row(
@@ -156,29 +159,33 @@ fun BillForm(modifier: Modifier = Modifier,
                     }
                 }
 
-            //Tip Row
-            Row(modifier = Modifier.padding(horizontal = 3.dp, vertical = 12.dp)) {
-                Text(text = "Tip", modifier = Modifier.align(alignment = Alignment.CenterVertically))
-                Spacer(modifier = Modifier.width(200.dp))
+                //Tip Row
+                Row(modifier = Modifier.padding(horizontal = 3.dp, vertical = 12.dp)) {
+                    Text(text = "Tip", modifier = Modifier.align(alignment = Alignment.CenterVertically))
+                    Spacer(modifier = Modifier.width(200.dp))
 
-                Text(text = "$33.00", modifier = Modifier.align(alignment = Alignment.CenterVertically))
+                    Text(text = "$33.00", modifier = Modifier.align(alignment = Alignment.CenterVertically))
 
-            }
-            Column(verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "33%")
-                Spacer(modifier = Modifier.height(14.dp))
+                }
+                Column(verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(text = "33%")
+                    Spacer(modifier = Modifier.height(14.dp))
 
-                //Slider
-                Slider(value = sliderPositionState.value, onValueChange = { newValue ->
-                    sliderPositionState.value = newValue
-                })
-            }
-            //} else {
- //               Box(){}
+                    //Slider
+                    Slider(value = sliderPositionState.value, onValueChange = { newValue ->
+                        sliderPositionState.value = newValue
+                    }, modifier = Modifier.padding(start = 16.dp, end = 16.dp), steps = 5, onValueChangeFinished = {
+
+                    })
+                }
+                //} else {
+                //               Box(){}
 //            }
+            }
         }
     }
+
 }
 
 @Preview(showBackground = true)
