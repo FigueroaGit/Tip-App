@@ -42,6 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.figueroa.tipapp.components.InputField
 import com.figueroa.tipapp.ui.theme.TipAppTheme
+import com.figueroa.tipapp.util.calculateTotalTip
 import com.figueroa.tipapp.widgets.RoundedIconButton
 
 class MainActivity : ComponentActivity() {
@@ -123,6 +124,10 @@ fun BillForm(modifier: Modifier = Modifier,
     }
 
     val range = IntRange(start = 1, endInclusive = 100)
+
+    val tipAmountState = remember {
+        mutableStateOf(0.0)
+    }
     Column {
         TopHeader()
 
@@ -172,7 +177,7 @@ fun BillForm(modifier: Modifier = Modifier,
                     Text(text = "Tip", modifier = Modifier.align(alignment = Alignment.CenterVertically))
                     Spacer(modifier = Modifier.width(200.dp))
 
-                    Text(text = "$33.00", modifier = Modifier.align(alignment = Alignment.CenterVertically))
+                    Text(text = "$ ${tipAmountState.value}", modifier = Modifier.align(alignment = Alignment.CenterVertically))
 
                 }
                 Column(verticalArrangement = Arrangement.Center,
@@ -183,6 +188,7 @@ fun BillForm(modifier: Modifier = Modifier,
                     //Slider
                     Slider(value = sliderPositionState.value, onValueChange = { newValue ->
                         sliderPositionState.value = newValue
+                        tipAmountState.value = calculateTotalTip(totalBill = totalBillState.value.toDouble(), tipPercentage = tipPercentage)
                     }, modifier = Modifier.padding(start = 16.dp, end = 16.dp), steps = 5, onValueChangeFinished = {
 
                     })
