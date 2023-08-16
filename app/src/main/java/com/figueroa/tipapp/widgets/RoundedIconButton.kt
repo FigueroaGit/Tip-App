@@ -24,7 +24,7 @@ fun RoundedIconButton(
     imageVector: ImageVector,
     onClick: () -> Unit,
     tint: Color = Color.Black.copy(alpha = 0.8f),
-    backgroundColor: CardColors = CardDefaults.cardColors(MaterialTheme.colorScheme.background),
+    backgroundColor: CardColors = CardDefaults.cardColors(Color.White),
     elevation: Dp = 4.dp
 ) {
     Card(modifier = modifier
