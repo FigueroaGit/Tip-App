@@ -8,7 +8,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,7 +23,7 @@ fun RoundedIconButton(
     imageVector: ImageVector,
     onClick: () -> Unit,
     tint: Color = Color.Black.copy(alpha = 0.8f),
-    backgroundColor: CardColors = CardDefaults.cardColors(MaterialTheme.colorScheme.background),
+    backgroundColor: CardColors = CardDefaults.cardColors(Color.White),
     elevation: Dp = 4.dp
 ) {
     Card(modifier = modifier
